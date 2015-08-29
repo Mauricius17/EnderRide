@@ -1,0 +1,21 @@
+name: EnderRide
+author: Mauricius17
+version: Beta 2.0
+
+main: de.mauricius17.enderride.system.EnderRide
+
+commands:
+  enderride:
+    description: EnderRide plugin command
+    usage: /enderride <args>
+    aliases: [er]
+
+permissions:
+  enderride.help:
+    default: false
+  enderride.set:
+    default: false
+  enderride.switch:
+    default: false
+  enderride.use:
+    default: false
