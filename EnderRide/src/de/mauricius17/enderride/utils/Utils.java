@@ -23,6 +23,16 @@ public class Utils {
 
 	private static List<UUID> enderRide = new ArrayList<>();
 
+	private static OnlineMode onlineMode = OnlineMode.ON;
+	
+	public static OnlineMode getOnlineMode() {
+		return onlineMode;
+	}
+	
+	public static void setOnlineMode(OnlineMode onlineMode) {
+		Utils.onlineMode = onlineMode;
+	}
+	
 	public static FileConfiguration getLocations() {
 		return locations;
 	}

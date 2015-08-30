@@ -14,7 +14,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 
 import de.mauricius17.enderride.system.EnderRide;
 import de.mauricius17.enderride.utils.Locations;
-import de.mauricius17.enderride.utils.UUIDFetcher;
 import de.mauricius17.enderride.utils.Utils;
 
 public class EntityListener implements Listener {
@@ -29,15 +28,15 @@ public class EntityListener implements Listener {
 		
 			if((p.getLocation().getBlock().getType() != Material.AIR)) {
 				
-				if(!damage.contains(UUIDFetcher.getUUID(p.getName()))) {
-					damage.add(UUIDFetcher.getUUID(p.getName()));
+				if(!damage.contains(p.getUniqueId())) {
+					damage.add(p.getUniqueId());
 					
 					Bukkit.getScheduler().scheduleSyncDelayedTask(EnderRide.getInstance(), new Runnable() {
 						
 						@Override
 						public void run() {
-							if(damage.contains(UUIDFetcher.getUUID(p.getName()))) {
-								damage.remove(UUIDFetcher.getUUID(p.getName()));
+							if(damage.contains(p.getUniqueId())) {
+								damage.remove(p.getUniqueId());
 							}
 							
 							if(p.getLocation().getBlock().getType() != Material.AIR && p.getLocation().getBlock().getType() != Material.WHEAT
@@ -78,16 +77,16 @@ public class EntityListener implements Listener {
 								p.teleport(Locations.getLocation(Locations.RESPAWNPOINT));
 								
 								
-								if(!list.contains(UUIDFetcher.getUUID(p.getName()))) {
-									list.add(UUIDFetcher.getUUID(p.getName()));
+								if(!list.contains(p.getUniqueId())) {
+									list.add(p.getUniqueId());
 									p.sendMessage(Utils.getPrefix() + ChatColor.translateAlternateColorCodes('&', Utils.getMessages().getString("inside.block")));
 															
 									Bukkit.getScheduler().scheduleSyncDelayedTask(EnderRide.getInstance(), new Runnable() {
 										
 										@Override
 										public void run() {
-											if(list.contains(UUIDFetcher.getUUID(p.getName()))) {
-												list.remove(UUIDFetcher.getUUID(p.getName()));
+											if(list.contains(p.getUniqueId())) {
+												list.remove(p.getUniqueId());
 											}
 										}
 									}, 20);

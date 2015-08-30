@@ -5,7 +5,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import de.mauricius17.enderride.utils.UUIDFetcher;
 import de.mauricius17.enderride.utils.Utils;
 
 public class PlayerQuitListener implements Listener {
@@ -15,8 +14,8 @@ public class PlayerQuitListener implements Listener {
 
 		Player p = e.getPlayer();
 		
-		if(Utils.getEnderRide().contains(UUIDFetcher.getUUID(p.getName()))) {
-			Utils.getEnderRide().remove(UUIDFetcher.getUUID(p.getName()));
+		if(Utils.getEnderRide().contains(p.getUniqueId())) {
+			Utils.getEnderRide().remove(p.getUniqueId());
 		}
 	}
 }

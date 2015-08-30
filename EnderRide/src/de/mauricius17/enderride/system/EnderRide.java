@@ -15,6 +15,7 @@ import de.mauricius17.enderride.enderride.EntityEnderRide;
 import de.mauricius17.enderride.enderride.EntityUtils;
 import de.mauricius17.enderride.mysql.MySQL;
 import de.mauricius17.enderride.utils.Locations;
+import de.mauricius17.enderride.utils.OnlineMode;
 import de.mauricius17.enderride.utils.Utils;
 
 public class EnderRide extends JavaPlugin {
@@ -41,6 +42,13 @@ public class EnderRide extends JavaPlugin {
 		Utils.setPrefix(ChatColor.translateAlternateColorCodes('&', Utils.getMessages().getString("prefix")));
 		Utils.setConsole(ChatColor.translateAlternateColorCodes('&', Utils.getMessages().getString("console")));
 		Utils.setNoPermission(ChatColor.translateAlternateColorCodes('&', Utils.getMessages().getString("nopermission")));
+		
+		if(Utils.getConfig().getBoolean("online-mode")) {
+			Utils.setOnlineMode(OnlineMode.ON);
+		} else {
+			Utils.setOnlineMode(OnlineMode.OFF);
+			Bukkit.getConsoleSender().sendMessage("§cOnline-Mode of the plugin is off! This mode is only usefull for non-premium-servers!");
+		}
 		
 		EntityUtils.register("EnderRide", 14, EntityEnderRide.class);
 	}
@@ -85,6 +93,7 @@ public class EnderRide extends JavaPlugin {
 	private void loadConfig() {
 		Utils.getConfig().options().header("In this file you can edit some settings");
 		
+		Utils.getConfig().addDefault("online-mode", true);
 		Utils.getConfig().addDefault("certain_worlds", false);		
 		Utils.getConfig().addDefault("worlds", "world,world_nether");
 		

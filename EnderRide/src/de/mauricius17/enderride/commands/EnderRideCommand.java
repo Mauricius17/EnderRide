@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import de.mauricius17.enderride.mysql.EnderRideMySQL;
 import de.mauricius17.enderride.mysql.MySQL;
 import de.mauricius17.enderride.utils.Locations;
+import de.mauricius17.enderride.utils.OnlineMode;
 import de.mauricius17.enderride.utils.Permissions;
 import de.mauricius17.enderride.utils.UUIDFetcher;
 import de.mauricius17.enderride.utils.Utils;
@@ -33,13 +34,17 @@ public class EnderRideCommand implements CommandExecutor {
 			if(args[0].equalsIgnoreCase("on") || args[0].equalsIgnoreCase("off") || args[0].equalsIgnoreCase("set")) {
 				if(p.hasPermission(Permissions.ENDERRIDESWITCH.getPermission())) {
 					if(args[0].equalsIgnoreCase("on")) {
-						if(Utils.getEnderRide().contains(UUIDFetcher.getUUID(p.getName()))) {
+						if(Utils.getEnderRide().contains(p.getUniqueId())) {
 							p.sendMessage(Utils.getPrefix() + ChatColor.translateAlternateColorCodes('&', Utils.getMessages().getString("command.switch.on.failed")));
 						} else {
-							Utils.getEnderRide().add(UUIDFetcher.getUUID(p.getName()));
+							Utils.getEnderRide().add(p.getUniqueId());
 							
 							if(MySQL.getSql().getBoolean("mysql")) {
-								EnderRideMySQL.setEnderRide(UUIDFetcher.getUUID(p.getName()).toString(), EnderRideMySQL.ON);
+								if(Utils.getOnlineMode().equals(OnlineMode.ON)) {
+									EnderRideMySQL.setEnderRide(UUIDFetcher.getUUID(p.getName()).toString(), EnderRideMySQL.ON);									
+								} else {
+									EnderRideMySQL.setEnderRide(p.getUniqueId().toString(), EnderRideMySQL.ON);
+								}
 							}
 							
 							p.sendMessage(Utils.getPrefix() + ChatColor.translateAlternateColorCodes('&', Utils.getMessages().getString("command.switch.on.success")));
@@ -47,11 +52,15 @@ public class EnderRideCommand implements CommandExecutor {
 					}
 					
 					if(args[0].equalsIgnoreCase("off")) {
-						if(Utils.getEnderRide().contains(UUIDFetcher.getUUID(p.getName()))) {
+						if(Utils.getEnderRide().contains(p.getUniqueId())) {
 							Utils.getEnderRide().remove(UUIDFetcher.getUUID(p.getName()));
 							
 							if(MySQL.getSql().getBoolean("mysql")) {
-								EnderRideMySQL.setEnderRide(UUIDFetcher.getUUID(p.getName()).toString(), EnderRideMySQL.OFF);
+								if(Utils.getOnlineMode().equals(OnlineMode.ON)) {
+									EnderRideMySQL.setEnderRide(UUIDFetcher.getUUID(p.getName()).toString(), EnderRideMySQL.OFF);									
+								} else {
+									EnderRideMySQL.setEnderRide(p.getUniqueId().toString(), EnderRideMySQL.OFF);
+								}
 							}
 							
 							p.sendMessage(Utils.getPrefix() + ChatColor.translateAlternateColorCodes('&', Utils.getMessages().getString("command.switch.off.success")));
